@@ -41,6 +41,7 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.select_master = require('./select_master')(sequelize,Sequelize);
 db.option_master = require('./option_master')(sequelize,Sequelize);
+db.users = require('./user')(sequelize,Sequelize);
 
 db.select_master.hasMany(db.option_master,{foreignKey:'sel_id'});
 db.option_master.belongsTo(db.select_master,{foreignKey:'sel_id'});

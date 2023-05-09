@@ -1,0 +1,115 @@
+swagger: "2.0"
+info:
+  title: "swagger API"
+  description: "Generate Dymanic Combo"
+  version: 1.0
+  contact:
+    email: bhutkrupali@gmail.com
+  liscence:
+    name: Apache 2.0
+    url: "http://apache.org/"
+  servers:
+    -url: "http://localhost:4000/"
+    description: This is local server
+    -url: "http://comapny.com/"
+    description: This is company server
+
+schemes: [http,https]
+
+paths:
+  /prac:
+    get:
+      summary: Return a Array
+      description : Array
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                sel_name:
+                  type: string
+  /updateData:
+    get:
+      parameters:
+      - in : query
+        name: id
+        schema:
+          User: 
+            type: object
+            properties:
+              id:
+                type: integer
+      responses:
+        200:
+          description: OK
+
+  /addData:
+    get:
+      summary: Posting Data
+      produces:
+       - application/json
+      consumes:
+       - application/json
+      parameters:
+      - in: body
+        name: name
+        schema:
+          type: object
+          properties:
+            sel_name: 
+              type: string
+            opt_name: 
+              type: string
+            opt_value:
+              type: string   
+      responses:
+        200:
+          description: OK
+
+  # /deletedata/{sel_id}:
+  #   get:
+  #     summary: Delete Data
+  #     produces:
+  #      - application/json
+  #     consumes:
+  #      - application/json
+  #     parameters:
+  #       - name: sel_id
+  #         in : path
+  #         schema: 
+  #           type: integer 
+  #     responses:
+  #       200:
+  #         description: OK
+
+  # /deletedata:
+  #   get:
+  #     parameters:
+  #     - in : query
+  #       name: sel_id
+  #       schema:
+  #         User: 
+  #           type: object
+  #           properties:
+  #             sel_id:
+  #               type: integer
+  #     responses:
+  #       200:
+  #         description: OK
+
+  /deletedata/{id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK

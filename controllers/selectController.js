@@ -1,7 +1,7 @@
 const db = require("../models");
 const select_master = db.select_master;
 const option_master = db.option_master;
-
+const users = db.users;
 var addData = async (req, res) => {
     const option_masters = req.body.option_master;
         await select_master.create(
@@ -15,18 +15,15 @@ var addData = async (req, res) => {
           },
           {
             include: [{model: option_master}],
-          }
-          
+          }   
         )
           .then((data) => {
-            res.send(data);
-            
+            res.send(data);  
           })
           .catch((error) => {
             res.status(500).send(error);
           });
       };
-    
 // var getData = async (req,res)=>{
 //     try {
 //         const id= req.query.id;
@@ -67,19 +64,18 @@ var addData = async (req, res) => {
 //       }
 //     };
 var prac = async (req,res)=>{
-    const cont_name = req.body.cont_name;
-
+   const sel_name = req.body.sel_name;
         let data = await select_master.findAll({
-          attributes: ["cont_name", "sel_name"],
+          attributes: [ "sel_name"],
           include: [
             {
               model: option_master,
               attributes: ["opt_name", "sel_id", "opt_value"],
             },
           ],
-          where: {
-                cont_name: cont_name
-            },
+          // where: {
+          //       sel_name: sel_name
+          //   },
           },
         );
        let type = data.sel_name;
@@ -107,11 +103,11 @@ var prac = async (req,res)=>{
           
             let response = {
                 success: true,
-                data: data,html
+                data: data
               };
              
         res.status(200).json(response);
-        res.send(html);
+        // res.send(html);
     };
 
 // var updateData = async (req,res)=>{
@@ -165,9 +161,10 @@ res.status(200).json(response);
 var deletedata = async (req,res)=>{
     try{
         const sel_id= req.body.sel_id
-    let deletedata = await option_master.destroy({where: {sel_id:sel_id}},{
-        include: [{model: select_master,attributes: {id:sel_id}}]})
-        let response = {
+    let deletedata = await option_master.destroy({where: {sel_id:sel_id}})
+      // {
+        // include: [{model: select_master},{where : {id: sel_id}}]})
+   let response = {
             success: true,
             data: deletedata
           };
@@ -177,4 +174,22 @@ var deletedata = async (req,res)=>{
 
     }
 }
-module.exports = {addData,updateData,prac,deletedata};
+var insertData = async (req,res)=>{
+  try{
+    let indata = await users.create({
+      name : req.body.name,
+      email: req.body.email,
+      password: req.body.password
+    })
+    let response = {
+      success: true,
+      data: data
+    };
+   
+res.status(200).json(response);
+  }
+  catch(error){
+    return res.status(500).json(error);
+  }
+}
+module.exports = {addData,updateData,prac,deletedata,insertData};
